@@ -133,4 +133,4 @@ class Config:
     SENDER = 'security@company.com'
     RECIPIENT = 'john.doe@company.com, jane.doe@company.com'
     """
-    NOTIFIER = None 
+    NOTIFIER = None
