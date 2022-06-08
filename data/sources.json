@@ -1,0 +1,14 @@
+{
+    "file_name": "sources.json",
+    "version": "1.0",
+    "author": "Garth Scheidemantel",
+    "sources": [
+
+         {
+             "ModuleName": "",
+             "Version": "",
+             "License": ""
+
+        }
+    ]
+}

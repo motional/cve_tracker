@@ -1,0 +1,13 @@
+modulename,version,license
+artifactory,7.7.3,Proprietary
+bitbucket,6.2.1,Proprietary
+confluence,7.13.1,Proprietary
+geospatial,2.3.0,nuTonomy
+jenkins,8.11.1,MIT
+jira,8.11.1,Proprietary
+json-c_project,1.13.1,MIT
+Kubernetes,1.14.6,Apache 2.0
+lcm,1.5.20,MIT
+proj4,5.0,MIT
+OpenSSL,1.1.1g,OpenSSL
+gitlab,14.9.2,Proprietary

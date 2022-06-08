@@ -1,0 +1,252 @@
+Module_Name,License,Secondary License
+abseil-cpp,Apache-2.0
+acado_pathtracker_mpc,LGPL-3.0
+acados,BSD-2-Clause
+aktualizr,MPL-2.0
+appimageupdate,MIT
+argtable3,BSD-3
+asio,Boost Software License 1.0
+assimp,Custom
+avro,Apache 2.0
+aws-sdk-cpp,Apache 2.0
+Basler-Pylon,pylon-eula
+bayes,MIT
+better-enums,BSD-2
+bison,GPL-3.0
+blitz,LGPL-3.0
+boost,Boost Software License 1.0
+ullet3,zlib license
+bzip2,BSD-4
+c-ares,c-ares
+casadi,LGPS-3.0
+cereal,BSD-3
+ceres-solver,MIT
+clipper,Boost Software License 1.0
+concurrentqueue,BSD-3,Boost Software License 1.0
+cpprestsdk,MIT
+crossguid,MIT
+cuda,EULA
+cuda-stubs,EULA
+cudnn,EULA
+cxxopts,MIT
+DBoW2,BSD-3
+DLib,BSD-3
+dsrcasn,BSD-2
+easy_profiler,MIT
+egl,Apache-2.0
+eigen,MPL-2.0
+flann,BSD-3
+flatbuffers,Apache 2.0
+flex,BSD-2
+spinnaker,Apache 2.0
+flirtlib,LGPL-3.0
+flycapture2,Point Grey EULA
+fmt,BSD-2
+freetype,FTL
+g2opy,BSD
+Gamepad,Aptiv Internal
+gdal,MIT, X
+geojson-cpp,ISC
+geometry-hpp,private
+geos,GDAL/OGR
+geospatial,nuTonomy
+glad,MIT
+glbinding,MIT
+glew,MIT
+glfw,zlib license
+glib,LGPL-2.1
+glm,MIT
+glog,BSD-3
+google-benchmark,Apache 2.0
+re2,BSD-3
+gtest,BSD-3
+gtsam,BSD-3
+icu,ICU
+imgui,MIT
+IpxCameraSDK,Imperx License
+irrlicht,zlib license
+ispc,BSD
+jemalloc,BSD-2
+json-c_project,MIT
+jsoncpp,MIT
+json-schema-validator,MIT
+KTX,Apache 2.0
+lapack,BSD-3
+layout,Blendish
+lcm,LGPL 2.1
+Lemon,Boost Software License 1.0
+libalsa,LGPL-2.1
+libarchive,libarchive
+libconfig,LGPL-2.1
+libcurl,MIT
+libE57Format,BSD-1.0 License
+libevdev,X11
+libevent,BSD-3
+expat,MIT/X Consortium
+libffi,MIT
+libgeotiff,libgeotiff Licensing
+libhrframegrabber,EULA
+libhrmatrix,EULA
+libiconv,LGPL-2.1
+libjpeg-turbo,BSD 3-Clause ZLIB
+libmp3lame,LGPL-2.0
+libnabo,BSD-3
+libosmium,BSL-1.0
+libpng,libpng-2.0
+libpointmatcher,BSD-3
+libpq,PostgreSQL
+protozero,Copyright Mapbox
+libsndfile,LGPL-2.1
+libsodium,ISC
+libtiff,MIT
+libtorch,BSD
+libusb,LGPL-2.1
+libuuid,BSD-3
+libwebp,BSD-3-Clause
+libx264,GPL-2.0
+libx265,http://hg.videolan.org/x265/file/tip/COPYING
+libzmq,LGPL-3.0
+linasm,GPL-3.0-or-later
+linux-canlib,BSD-3
+lpsolve,LGPL-2.0-only
+lz4,
+magicget,Boost Software License 1.0
+mapbox-earcut-hpp,ISC
+mapboxgl,private
+mapbox-variant,private
+meson_installer,	Apache 2.0
+mkl,Intel Simplified Software License - ISSL
+mosquitto,EPL-2.0
+acado_lateral_nmpc,LGPL-2.1 LGPL-3.0
+forces_lateral_nmpc,Commercial
+forces_longitudinal_mpc,Commercial
+mrpt,BSD-3
+nanoflann,BSD License (https://github.com/jlblancoc/nanoflann/blob/master/COPYING)
+nanogui,MIT
+nanovg,zlib license
+nasm,BSD-2
+ninja_installer,Apache 2.0
+nlohmann-json,MIT
+nmea,LGPL-2.1
+nng,MIT
+nvcodec,nvidia
+obj-loader,MIT
+ogg,BSD-2-Clause
+ogre3d,MIT
+openblas,https://raw.githubusercontent.com/xianyi/OpenBLAS/develop/LICENSE
+opencv,BSD-3
+opencv,BSD-3
+opencv,BSD-3
+openh264,BSD-2-Clause
+OpenMesh,BSD-3
+OpenSceneGraph,OpenSceneGraph Public License
+optim,Aptiv License
+opus,BSD-3-Clause
+osqp_solver,Apache 2.0, Aptiv
+osrm,BSD-2
+Pangolin,MIT
+parallel-hashmap,Apache-2.0
+pcl,BSD-3
+pfr,BSL-1.0
+pistache,Apache 2.0
+proj4,MIT
+protobuf,BSD-3-Clause
+protoc_installer,BSD-3-Clause
+pybind11,BSD-3
+pybind11_json,BSD-3-Clause
+qhttpengine,MIT
+qhull,Qhull
+qpps,Apache 2.0, BSD-3
+Qt,LGPL-3.0
+qwt,LGPL-2.1
+range-v3,BSL-1.0
+rapidjson,MIT
+routingkit,BSD-2
+rti-dds,RTI License
+rti-dds-idl,RTI License
+schema-deps,Apache 2.0
+SDL2,zlib
+septentrio,BSD-3
+snappy,Copyright 2011, Google Inc.
+sparsepp,BSD-3
+libspatialite,MPL1.1
+spdlog,MIT
+sqlite3,Public Domain
+sqlite3pp,MIT
+stb,MIT
+strawberryperl,GPL-1.0, the Artistic License
+sumo-traci,EPL
+swiftshader,Apache-2.0
+TBB,Apache-2.0
+tensorrt,NVIDIA SLA
+thrift,Apache 2.0
+tinyxml,zlib
+units,MIT
+unity3d-native-interface,MIT
+vorbis,BSD-3-Clause
+voronoi,MIT
+vulkan-lunarg,Apache-2.0
+VulkanSceneGraph,MIT
+websocketpp,MIT, BSD-3
+xerces-c,Apache-2.0
+xtensor,BSD-3-Clause
+xtl,BSD-3-Clause
+xxHash_cx,MIT
+yaml-cpp,MIT
+zlib,zlib license
+zstd,BSD-3-Clause
+bot2,LGPL 3
+nucore-lcmtypes,nuTonomy
+liboctomap,Aptiv internal
+recgeometry,Aptiv
+tclap,MIT
+artifactory,Proprietary
+bitbucket,Proprietary
+confluence,Proprietary
+geospatial,nuTonomy
+jenkins,MIT
+jira,Proprietary
+json-c_project,MIT
+Kubernetes,Apache 2.0
+lcm,MIT
+pistache,Apache 2.0
+proj4,MIT
+OpenSSL, OpenSSL
+core,MIT
+plugin-proposal-class-properties,MIT
+plugin-proposal-object-rest-spread,MIT
+preset-env,MIT
+preset-react,MIT
+preset-typescript,MIT
+enzyme,MIT
+enzyme-adapter-react-16,MIT
+file-saver,MIT
+google-map-react,MIT
+history,MIT
+humps,MIT
+jest,MIT
+json-stable-stringify,MIT
+jszip,MIT
+lodash,MIT
+lodash-es,MIT
+memoizee,MIT
+node,MIT
+papaparse,MIT
+react,MIT
+react-dom,MIT
+react-highcharts,MIT
+boringssl,OpenSSL
+benchmark,Apache-2.0 License
+googletest,BSD-3-Clause
+rules_proto_grpc,Apache-2.0 License
+pybind11_bazel,BSD-3
+upb,Google BSD-3
+wise_enum,Boost Software License
+pytorch_scatter,MIT
+easy_profiler,MIT
+curl,MIT
+com_github_google_re2,BSD 3-Clause License
+com_github_grpc_grpc,Apache-2.0 License
+com_github_nelhage_rules_boost,Apache-2.0 License
+io_bazel_rules_go,Apache-2.0 License
+com_google_absl,Apache-2.0 License
