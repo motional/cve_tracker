@@ -71,7 +71,9 @@ class BazelParser(PackageParser):
 
     @staticmethod
     def _find_license(version_name) -> str:
-        with open('src/dependency_searchers/licenses.csv', 'r') as license_dict:
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        filename = os.path.join(current_dir, "licenses.csv")
+        with open(filename, 'r') as license_dict:
             for rows in csv.DictReader(license_dict):
                 if rows['Module_Name'] == version_name and 'License' in rows:
                     return rows['License']

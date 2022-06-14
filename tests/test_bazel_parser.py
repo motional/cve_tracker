@@ -49,7 +49,7 @@ def load_asio_repo():
         self.assertEqual(len(dependencies), 1)
 
         self.assertEqual(dependencies[0]['ModuleName'], 'asio')
-        self.assertEqual(dependencies[0]['Version'], '1-12-0')
+        self.assertEqual(dependencies[0]['Version'], '1')
         self.assertEqual(dependencies[0]['License'], 'Boost Software License 1.0')
 
     def test_parse_valid_bazel_file_dot_version(self):
@@ -76,7 +76,7 @@ def load_KTX_repo():
         self.assertEqual(len(dependencies), 1)
 
         self.assertEqual(dependencies[0]['ModuleName'], 'KTX')
-        self.assertEqual(dependencies[0]['Version'], '4.0.0-Beta3-latest')
+        self.assertEqual(dependencies[0]['Version'], '4.0.0')
         self.assertEqual(dependencies[0]['License'], 'Apache 2.0')
 
 

@@ -1,7 +1,7 @@
 import unittest
 from bs4 import BeautifulSoup
 from src.report_creators.html_report_visitor import HtmlReportVisitor
-
+from src.report_creators.html_report_visitor import create_html_cve_entry
 
 class TestHtmlVisitor(unittest.TestCase):
 
@@ -11,7 +11,7 @@ class TestHtmlVisitor(unittest.TestCase):
                'CVSSVector': 'cvss_vector_here', 'Description': 'A fake vulnerability.',
                'URL': 'http://example.com', 'is_new': True}
 
-        html_string = HtmlReportVisitor()._create_html_cve_entry(cve)
+        html_string = create_html_cve_entry(cve)
 
         parsed_html = BeautifulSoup(html_string, "html.parser")
         td_tags = parsed_html.find_all('td')

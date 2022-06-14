@@ -1,7 +1,7 @@
 import json
 import unittest
 from src.report_creators.json_report_visitor import JsonReportVisitor
-
+from src.report_creators.json_report_visitor import create_json_cve_entry
 
 class TestJsonVisitor(unittest.TestCase):
 
@@ -11,7 +11,7 @@ class TestJsonVisitor(unittest.TestCase):
                'CVSSVector': 'cvss_vector_here', 'Description': 'A fake vulnerability.',
                'URL': 'http://example.com', 'is_new': True}
 
-        json_string = JsonReportVisitor()._create_json_cve_entry(cve)
+        json_string = create_json_cve_entry(cve)
         json_string += '             \"isNew\": ' + str(cve['is_new']).lower() + '\n        }\n'
 
         # This will throw an exception and cause the test to fail if the json is invalid

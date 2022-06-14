@@ -59,7 +59,7 @@ generate a report of their CVEs. We recommend creating a cron job or similar to 
 
 ### Using CSV Files
 
-If you are using a CSV file to monitor infrastructure components or dependencies in unsupported package manager or build system files, the CSV must contain four columns with the following header: `modulename,version,license`. Use the `license` column if you'd like to capture the software license. The following CSV file can be used to monitor BitBucket version 6.2 and Kubernetes version 1.14.6 for CVEs:
+If you are using a CSV file to monitor infrastructure components or dependencies in unsupported package manager or build system files, the CSV must contain three columns with the following header: `modulename,version,license`. Use the `license` column to capture the software license. The following CSV file can be used to monitor BitBucket version 6.2 and Kubernetes version 1.14.6 for CVEs:
 
 ```
 modulename,version,license
