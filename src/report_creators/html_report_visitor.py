@@ -114,6 +114,7 @@ table.darkTable tfoot td {
   <button class="tablinks" onclick="openPackageReport(event, 'Conan Dependencies')">Conan Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'Pip Dependencies')">Pip Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'NPM Dependencies')">NPM Dependencies</button>
+  <button class="tablinks" onclick="openPackageReport(event, 'MakeFile Dependencies')">MakeFile Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'Local Source Dependencies')">Local Source Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'license_data')">License Data</button>
 </div>"""

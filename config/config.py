@@ -5,7 +5,8 @@ from src.dependency_searchers.dependency_searchers import LocalFileSearcher, \
     GitHubRepoSearcher
 from src.dependency_searchers.package_parsers import BazelParser, CsvParser, \
     NpmParser, PipParser, \
-    ConanParser, JsonParser
+    ConanParser, JsonParser, \
+    MakeFileParser
 from src.report_creators.html_report_visitor import HtmlReportVisitor
 from src.report_creators.json_report_visitor import JsonReportVisitor
 from src.notification.email import EmailNotifier
@@ -40,6 +41,8 @@ class Config:
             Example search pattern: {"requirements.txt": PipParser()}
         * JsonParser() - For json package files.
             Example search pattern: {"sources.json": JsonParser()}
+        * MakeFileParser() - For *.mk package files.
+            Example search pattern: {"*.mk": MakeFileParser()}
 
     When your dependencies have assigned CVEs, this tool produces either an HTML or JSON report
     when the HtmlReportVisitor() or JsonReportVisitor() are configured. You can choose to have a
@@ -85,7 +88,8 @@ class Config:
      SEARCHER_CONFIGS.append({
          "search_uri": LocalFileSearcher(),
          "search_relative_path": "example/path", # optional, defaults to current working directory
-         "search_pattern": {"sources.csv": CsvParser()}
+         "search_pattern": {"sources.csv": CsvParser(),
+                            "*.mk": MakeFileParser()}
          })
 
     """

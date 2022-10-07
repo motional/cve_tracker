@@ -307,3 +307,36 @@ class JsonParser(PackageParser):
                 dependencies.append(dependency)
         return dependencies
 
+class MakeFileParser(PackageParser):
+    """ This class extracts dependencies defined in Make (*.mk) package files. .mk files used by
+        software compilers and linkers for building program executable from source files. """
+
+    def parse(self, package_contents: str) -> List[Dict[str, str]]:
+        dependencies = []
+        module_source = 'MakeFile Dependencies'
+        module_name = ''
+        version_number = ''
+        module_license = ''
+        contents = package_contents.replace('\\\n', '').strip().split('\n')
+        dependency_pattern = re.compile('^\s*(\w+)_([a-zA-Z0-9]+)\s*(?:=|\\+=)\s*(\S|\S.*\S)\s*$', re.M)
+        if contents:
+            for line in contents:
+                match = dependency_pattern.search(line)
+                if match:
+                    source_name, key, value = match.groups()
+                    if 'VERSION' in key:
+                        module_name = source_name.lower()
+                        version_number = value
+                    if 'LICENSE' in key:
+                        module_license = value
+            if version_number and not module_license:
+                module_license = 'N/A'
+            if not version_number:
+                logging.warning("Skipping the following entry because the parser cannot locate a version number, "
+                                "which makes precise CVE matches impossible: \n")
+            else:
+                dependencies.append({'MODULE_SOURCE': module_source, 'ModuleName': module_name,
+                                     'Version': version_number,
+                                     'License': module_license})
+        return dependencies
+
