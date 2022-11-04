@@ -4,7 +4,7 @@ import textwrap
 import argparse
 
 version_major = 1
-version_minor = 1
+version_minor = 2
 version_bug = 0
 version = str(version_major) + '.' + str(version_minor) + '.' + str(version_bug)
 
