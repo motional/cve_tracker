@@ -66,18 +66,17 @@ class NistCveSearcher():
     @staticmethod
     def _query_nvd_for_module_cves(mod_name: str, nist_api_key: str) -> List:
         cves = []
-        nvd_search_url = 'https://services.nvd.nist.gov/rest/json/cves/1.0'
+        nvd_search_url = 'https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch='
 
         try:
-            search_result = requests.get(url=nvd_search_url,
-                                         params={'keyword': mod_name, 'apiKey': nist_api_key})
+            search_result = requests.get(url = nvd_search_url + mod_name, headers={'apiKey': nist_api_key})
             if search_result.ok:
                 result_json = search_result.json()
                 if 'error' in result_json:
                     logging.error("The NIST API returned the following error message: %s",
                                   result_json['message'])
-                elif result_json['result'] and result_json['result']['CVE_Items']:
-                    for results in result_json['result']['CVE_Items']:
+                elif result_json['vulnerabilities']:
+                    for results in result_json['vulnerabilities']:
                         cves.append(results)
                     # Sleep to stay within NIST's rate limit for those with or without an API key
                     # For more information please visit: https://nvd.nist.gov/developers
@@ -144,19 +143,24 @@ class NistCveSearcher():
 
         return version
 
+    @staticmethod
+    def _find_key_for_metric(dict: List, keys: List) -> str:
+        for key in keys:
+            if key in dict:
+                return key
+        raise Exception('No key found in metrics dictionary - %s, %s' % (str(keys), str(dict)))
+
     def _make_cve_entry(self, source: str, module_name: str,
                         version_number: str, data: List) -> Dict[str, str]:
 
-        cve_id = data['cve']['CVE_data_meta']['ID']
-        description = data['cve']['description']['description_data'][0]['value']
-        url = data['cve']['references']['reference_data'][0]['url']
+        cve_id = data['cve']['id']
+        description = data['cve']['descriptions'][0]['value']
+        url = data['cve']['references'][0]['url']
+        metrics_dict = data['cve']['metrics']
 
-        if 'baseMetricV3' not in data['impact']:
-            basescore = data['impact']['baseMetricV2']['cvssV2']['baseScore']
-            cvss_vector = data['impact']['baseMetricV2']['cvssV2']['vectorString']
-        else:
-            basescore = data['impact']['baseMetricV3']['cvssV3']['baseScore']
-            cvss_vector = data['impact']['baseMetricV3']['cvssV3']['vectorString']
+        metric_key = self._find_key_for_metric(metrics_dict, ['cvssMetricV31', 'cvssMetricV30', 'cvssMetricV2'])
+        cvss_vector= metrics_dict[metric_key][0]['cvssData']['vectorString']
+        basescore = metrics_dict[metric_key][0]['cvssData']['baseScore']
 
         is_new_cve = cve_id not in self._previous_cves
 
@@ -171,38 +175,32 @@ class NistCveSearcher():
         relevant_cves = {}
 
         for dependency in dependencies:
-            nist_cve_response = self._query_nvd_for_module_cves(dependency['ModuleName'],
-                                                                nist_token)
+            nist_cve_response = self._query_nvd_for_module_cves(dependency['ModuleName'], nist_token)
 
             for nist_cve_entry in nist_cve_response:
-                configurations_path = nist_cve_entry['configurations']['nodes'][0:1]
+                if 'configurations' in nist_cve_entry['cve']:
+                    configurations_path = nist_cve_entry['cve']['configurations'][0]['nodes'][0]
+                    configurations = configurations_path['cpeMatch'][0]
 
-                if not configurations_path:
-                    continue
-
-                configurations = configurations_path[0]['cpe_match']
-
-                for config in configurations:
-                    cpe_uri = config['cpe23Uri']
+                    cpe_uri = configurations['criteria']
                     item = str(cpe_uri).split(":")
                     version_name = item[4]
                     version_number = item[5]
 
                     if version_name != dependency['ModuleName'] or \
                         version_number not in ('*', dependency['Version']):
-
                         continue
 
                     if version_number == '*':
                         version_number = self._version_start_end_check(dependency['Version'],
-                                                                       config)
+                                                                     configurations)
 
                         if not version_number:
                             continue
 
                     cve = self._make_cve_entry(dependency['MODULE_SOURCE'],
-                                               dependency['ModuleName'],
-                                               version_number, nist_cve_entry)
+                                             dependency['ModuleName'],
+                                             version_number, nist_cve_entry)
 
                     if dependency['MODULE_SOURCE'] not in relevant_cves:
                         relevant_cves[dependency['MODULE_SOURCE']] = {'New': [], 'Old': []}
