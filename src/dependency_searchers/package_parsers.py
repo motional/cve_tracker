@@ -8,6 +8,8 @@ provided to extract dependencies from the contents of the following package type
 - Conan
 - NPM
 - PIP
+- MAKE
+- Yarn
 """
 
 from abc import abstractmethod, ABCMeta
@@ -20,6 +22,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 import os
+from pyarn import lockfile
 
 # The URL of the NPM repository to use to fetch license data for dependencies.
 NPM_URL = 'https://www.npmjs.com/package/'
@@ -126,8 +129,8 @@ class CsvParser(PackageParser):
 
         This tool supports CSV files like this to allow you to easily track CVEs assigned to
         software that is not managed by a supported package format. For example, if you use
-        infrastructure software such as Jenkins or Artifactory, using a CSV file is the
-        an easy way to find about about new CVEs in the versions you're using. """
+        infrastructure software such as Jenkins or Artifactory, using a CSV file is
+        an easy way to find about new CVEs in the versions you're using. """
 
     def parse(self, package_contents: str) -> List[Dict[str, str]]:
         dependencies = []
@@ -340,3 +343,52 @@ class MakeFileParser(PackageParser):
                                      'License': module_license})
         return dependencies
 
+class YarnParser(PackageParser):
+    """ This class extracts dependencies defined in Yarn.lock (yarn.lock) package files."""
+    @staticmethod
+    def yarn_license_finder(module_name: str) -> str:
+        source = requests.get(NPM_URL + module_name).text
+        soup = BeautifulSoup(source, 'html.parser')
+        license_title_tag = soup.find("h3", text="License")
+        license_name_tag = None
+
+        if license_title_tag:
+            license_name_tag = license_title_tag.next_sibling
+
+        if license_name_tag:
+            module_license = license_name_tag.text
+
+        else:
+            logging.warning("Could not find license for Yarn dependency %s. "
+                            "Defaulting to 'N/A'.", module_name)
+            module_license = 'N/A'
+        return module_license
+
+    def parse(self, package_contents: str) -> List[Dict[str, str]]:
+        dependencies = []
+        module_source = 'Yarn Dependencies'
+        dependency_pattern = re.compile('@(\w+)/(\w+(?:-\w+)*)(\D+)(\d+.\d+.\d+)')
+        try:
+            yarn_file = lockfile.Lockfile.from_str(package_contents)
+            for data in yarn_file.data:
+                modules = data.split(', ')
+                for mod in modules:
+                    match = dependency_pattern.match(mod)
+                    if match:
+                        module_name = match.group(2).replace('-', '_')
+                        version_number = match.group(4)
+                        if not version_number:
+                            logging.warning("Skipping the following entry because the parser cannot locate a version number, "
+                                "which makes precise CVE matches impossible: \n")
+
+                        else:
+                            module_license = self.yarn_license_finder(match.group(2))
+                            dependencies.append({'MODULE_SOURCE': module_source, 'ModuleName': module_name,
+                                                 'Version': version_number,
+                                                 'License': module_license})
+
+        except ValueError:
+            logging.warning("Skipping the following file because the parser cannot locate the dependency data, "
+                            "which makes precise CVE matches impossible: \n")
+
+        return dependencies
