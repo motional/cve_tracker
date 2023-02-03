@@ -17,6 +17,7 @@ Additionally, CVE tracker supports collecting dependencies from files for the fo
 * [NPM](https://www.npmjs.com/)
 * [PIP](https://pip.pypa.io/)
 * [Make](https://www.gnu.org/software/make/manual/make.html)
+* [Yarn](https://yarnpkg.com/)
 
 Additionally, a CSV parser, and JSON parser are available for cases where it is necessary to monitor for CVEs in infrastructure components (e.g. Kubernetes) and dependencies that are in unsupported package manager and build system files.
 
@@ -25,7 +26,7 @@ Once dependencies are collected, CVE Tracker uses the [NIST API](https://nvd.nis
 ## Features
  
 * Automatically finds dependency definitions in files stored in [GitHub](https://github.com/), [GitLab](https://gitlab.com/), or the local filesystem
-* Supports parsing dependency files in the following formats: `bazel`, `conan`, `pip`, `npm`, `json`, `.mk`, and `csv`
+* Supports parsing dependency files in the following formats: `bazel`, `conan`, `pip`, `npm`, `json`, `.mk`, `yarn.lock`, and `csv`
 * Automatically finds license data for dependencies
 * Relies on the [NIST API](https://nvd.nist.gov/developers/vulnerabilities) as an accurate source of current CVE data
 * Supports HTML and JSON reports
