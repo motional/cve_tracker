@@ -2,9 +2,9 @@ import os
 import datetime
 from src.dependency_searchers.dependency_searchers import LocalFileSearcher, \
     GitLabRepoSearcher, \
-    GitHubRepoSearcher
-from src.dependency_searchers.package_parsers import BazelParser, CsvParser, \
-    NpmParser, PipParser, \
+    GitHubRepoSearcher, ArtifactorySearcher
+from src.dependency_searchers.package_parsers import ArtifactoryParser, BazelParser, \
+    CsvParser, NpmParser, PipParser, \
     ConanParser, JsonParser, \
     MakeFileParser, YarnParser
 from src.report_creators.html_report_visitor import HtmlReportVisitor
@@ -85,7 +85,14 @@ class Config:
             "search_relative_path": "example/path", # optional, defaults to current working directory
             "search_pattern": {"repo.bzl": BazelParser()}
             })
-
+    Artifactory tokens are documented here:
+    https://jfrog.com/knowledge-base/how-to-use-access-tokens-in-your-ci-environment/
+    Artifactory configuration example:
+     SEARCHER_CONFIGS.append({
+            "search_uri": ArtifactorySearcher( "artifactory_user_name_here","artifactory_token_here", "artifactory_url_here"),
+            "search_relative_path": "artifact/path", # optional, defaults to ALL if left blank
+            "search_pattern": {"artifact_name": ArtifactoryParser()}
+            })
     Local file configuration example:
      SEARCHER_CONFIGS.append({
          "search_uri": LocalFileSearcher(),
@@ -93,14 +100,12 @@ class Config:
          "search_pattern": {"sources.csv": CsvParser(),
                             "*.mk": MakeFileParser()}
          })
-
     """
     SEARCHER_CONFIGS = []
     SEARCHER_CONFIGS.append({
         "search_uri": '',
-        "search_relative_path": '',
-        "search_pattern": {"": {}},
-
+        "search_relative_path": "",
+        "search_pattern": {"": {}}
     })
 
     """

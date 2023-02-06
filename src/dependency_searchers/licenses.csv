@@ -250,3 +250,4 @@ com_github_grpc_grpc,Apache-2.0 License
 com_github_nelhage_rules_boost,Apache-2.0 License
 io_bazel_rules_go,Apache-2.0 License
 com_google_absl,Apache-2.0 License
+pyopenssl,Apache-2.0 License

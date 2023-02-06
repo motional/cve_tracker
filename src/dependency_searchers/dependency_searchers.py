@@ -13,8 +13,10 @@ from abc import abstractmethod, ABCMeta
 from typing import List, Dict
 import glob
 import logging
+import json
 import os
 import pathlib
+import requests
 from requests.exceptions import ConnectionError as GitLabConnectionError
 import gitlab
 from gitlab import GitlabAuthenticationError, GitlabParsingError
@@ -166,3 +168,48 @@ class LocalFileSearcher(DependencySearcher):
                         dependencies.extend(parsed_dependencies)
 
         return dependencies
+
+
+class ArtifactorySearcher(DependencySearcher):
+    """ This class is used to search the Jfrog Artifactory for artifacts and
+            returns dependencies parsed from them. """
+
+    def __init__(self, user_name: str, token: str, artifactory_url: str):
+        self._user_name = user_name
+        self._token = token
+        self._artifactory_url = artifactory_url
+
+
+    def _get_uri_data(self, search_url, username, token) -> List:
+        uri_list = []
+        try:
+            artifact_request = requests.get(search_url, auth=(username, token))
+            if artifact_request.status_code == 200:
+                data = json.loads(artifact_request.text)
+                if data['results']:
+                    for d in data['results']:
+                        uri_list.append(d['uri'])
+            elif artifact_request.status_code == 401:
+                logging.warning("Failed to authenticate to the Artifactory. "
+                                "The specified username or API key is likely wrong.")
+            else:
+                logging.warning("The Artifactory request returned status code:  " + str(artifact_request.status_code) +
+                                "Please check the Artifactory URL and try again.")
+        except requests.exceptions.ConnectionError:
+            logging.error("Failed to find %s. "
+                          "The specified search path is likely wrong.", search_url)
+        return uri_list
+
+    def search(self, search_pattern: Dict[str, PackageParser], search_path=""):
+        dependencies = []
+        api = 'api/search/artifact'
+        param = 'name'
+        artifactory_search_url = f'{self._artifactory_url}/{api}?{param}={search_path}'
+        uri_data = self._get_uri_data(artifactory_search_url, self._user_name, self._token)
+        if uri_data:
+            for pattern in search_pattern.keys():
+                package_dependencies = search_pattern[pattern].parse(str(uri_data))
+                dependencies.extend(package_dependencies)
+
+        return dependencies
+

@@ -28,6 +28,15 @@ from pyarn import lockfile
 NPM_URL = 'https://www.npmjs.com/package/'
 
 
+def _find_license(version_name) -> str:
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(current_dir, "licenses.csv")
+    with open(filename, 'r') as license_dict:
+        for rows in csv.DictReader(license_dict):
+            if rows['Module_Name'] == version_name and 'License' in rows:
+                return rows['License']
+    return 'N/A'
+
 class PackageParser(metaclass=ABCMeta):
     """ Abstract base class for parser classes that extract dependencies from
         the contents of package files. """
@@ -72,15 +81,7 @@ class BazelParser(PackageParser):
         you can map known dependencies to their licenses in licenses.csv in this
         directory if you want this data available in reports. """
 
-    @staticmethod
-    def _find_license(version_name) -> str:
-        current_dir = os.path.dirname(os.path.realpath(__file__))
-        filename = os.path.join(current_dir, "licenses.csv")
-        with open(filename, 'r') as license_dict:
-            for rows in csv.DictReader(license_dict):
-                if rows['Module_Name'] == version_name and 'License' in rows:
-                    return rows['License']
-        return 'N/A'
+
 
     def parse(self, package_contents: str) -> List[Dict[str, str]]:
         dependencies = []
@@ -112,7 +113,7 @@ class BazelParser(PackageParser):
                     version = version_match[0].strip('v')
 
             if name and version:
-                dependency_license = self._find_license(name)
+                dependency_license = _find_license(name)
                 dependency = {'MODULE_SOURCE': str('Bazel Dependencies'), 'ModuleName': name,
                               'Version': version, 'License': dependency_license}
                 dependencies.append(dependency)
@@ -290,8 +291,8 @@ class JsonParser(PackageParser):
 
             This tool supports JSON files like this to allow you to easily track CVEs assigned to
             software that is not managed by a supported package format. For example, if you use
-            infrastructure software such as Jenkins or Artifactory, using a JSON file is the
-            an easy way to find about about new CVEs in the versions you're using. """
+            infrastructure software such as Jenkins or Artifactory, using a JSON file is
+            an easy way to find about new CVEs in the versions you're using. """
 
     def parse(self, package_contents: str) -> List[Dict[str, str]]:
         dependencies = []
@@ -343,6 +344,7 @@ class MakeFileParser(PackageParser):
                                      'License': module_license})
         return dependencies
 
+
 class YarnParser(PackageParser):
     """ This class extracts dependencies defined in Yarn.lock (yarn.lock) package files."""
     @staticmethod
@@ -390,5 +392,29 @@ class YarnParser(PackageParser):
         except ValueError:
             logging.warning("Skipping the following file because the parser cannot locate the dependency data, "
                             "which makes precise CVE matches impossible: \n")
+
+        return dependencies
+
+
+class ArtifactoryParser(PackageParser):
+    """ This class extracts dependencies found in only in the Jfrog Artifactory datastore.
+    Note: This parser will not work with any other package parser."""
+    def parse(self, package_contents: str) -> List[Dict[str, str]]:
+        dependencies = []
+        module_source = 'Artifactory Dependencies'
+        dependency_pattern = re.compile(r'(\w*)-(\d+.\d+.\d+)')
+        for contents in package_contents.split(','):
+            match = dependency_pattern.search(contents)
+            if match:
+                module_name = match.group(1)
+                version_number = match.group(2)
+                if version_number:
+                    module_license=_find_license(module_name)
+                    dependency={'MODULE_SOURCE': module_source, 'ModuleName': module_name, 'Version': version_number,
+                                'License': module_license}
+                    dependencies.append(dependency)
+                else:
+                    logging.warning("Skipping the following entry because its Version column is "
+                                    "empty, which makes precise CVE matches impossible: \n")
 
         return dependencies
