@@ -110,6 +110,7 @@ table.darkTable tfoot td {
 <p>Click on the buttons inside the tabbed menu:</p>
 
 <div class="tab">
+  <button class="tablinks" onclick="openPackageReport(event, 'Artifactory Dependencies')">Artifactory Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'Bazel Dependencies')">Bazel Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'Conan Dependencies')">Conan Dependencies</button>
   <button class="tablinks" onclick="openPackageReport(event, 'Pip Dependencies')">Pip Dependencies</button>
