@@ -236,7 +236,7 @@ def main():
 
         if "search_relative_path" in searcher_config:
                 dependencies.extend(
-                    searcher_config["search_uri"].search(searcher_config["search_pattern"]))
+                    searcher_config["search_uri"].search(searcher_config["search_pattern"], searcher_config['search_relative_path']))
 
     cves = NistCveSearcher().cve_search(dependencies, Config.NIST_TOKEN)
 
