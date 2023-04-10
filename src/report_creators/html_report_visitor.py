@@ -125,6 +125,7 @@ HTML_TABLE_CVE = """
   <caption style="font-size: xx-large;">{} Vulnerabilities</caption>
   <thead>
     <tr>
+      <th>Known Exploit</th>
       <th>CVE ID</th>
       <th>CVSS Base Score</th>
       <th>CVSS Vector</th>
@@ -136,6 +137,7 @@ HTML_TABLE_CVE = """
   </thead>
   <tfoot>
     <tr>
+      <th>Known Exploit</th>
       <th>CVE ID</th>
       <th>CVSS Base Score</th>
       <th>CVSS Vector</th>
@@ -170,6 +172,7 @@ LICENSE_HTML_TABLE = """
   </tfoot>
   <tbody>
 """
+
 END_DIV = "</div>"
 HTML_END_TABLE = """  </tbody>
 </table>
@@ -208,9 +211,8 @@ Contains Confidential, Proprietary, or Privileged Information Exempt from Public
 </html>"""
 
 
-
-
 def create_html_cve_entry(cve: Dict[str, str]) -> str:
+    html_known_exploit = '      <td>' + cve['KnownExploit'] + '</td>\n'
     html_cve_id = '      <td>' + cve['ID'] + '</td>\n'
     html_cve_basescore = '      <td>' + str(cve['BaseScore']) + '</td>\n'
     html_cve_attack_path = '      <td>' + cve['CVSSVector'] + '</td>\n'
@@ -218,7 +220,7 @@ def create_html_cve_entry(cve: Dict[str, str]) -> str:
     html_affected_version = '      <td>' + str(cve['Version']) + '</td>\n'
     html_vendor_url = '      <td><a href=\"' + cve['URL'] + '\">' + cve['URL'] + '</a></td>\n'
     html_cve_description = '      <td>' + cve['Description'] + '</td>\n'
-    html_cve_entry = '    <tr>\n' + html_cve_id + html_cve_basescore + \
+    html_cve_entry = '    <tr>\n' + html_known_exploit + html_cve_id + html_cve_basescore + \
         html_cve_attack_path + html_module_name + \
         html_affected_version + html_vendor_url + \
         html_cve_description + '    </tr>\n'
@@ -233,6 +235,7 @@ def create_html_license_entry(dependency: Dict[str, str]) -> str:
         html_vendor_license + '    </tr>\n'
     return html_license_entry
 
+
 class HtmlReportVisitor(CveVisitor):
     """ This class implements a CVE visitor that produces an HTML report. The report
         is a single HTML file containing all discovered CVEs. Findings are separated into
@@ -242,7 +245,6 @@ class HtmlReportVisitor(CveVisitor):
         html = ''
         html += HTML_INTRO
         return html
-
 
     def visit_source(self, cve_source: str, new_cves: List[Dict[str, str]],
                      old_cves: List[Dict[str, str]]) -> str:

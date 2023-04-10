@@ -6,7 +6,7 @@ class ReportCreator():
         structure containing all discovered CVEs to generate a report. Each visitor
         implementation outputs a report in its own specific format (e.g. HTMLReportVisitor
         visits each entry to generate an HTML report). The data structure organizes CVEs by
-        package file type (source) and whether or not each a CVE has been seen by previous
+        package file type (source) and whether each a CVE has been seen by previous
         runs of CVE Tracker. Those CVEs that were not seen previously are listed as new. """
 
     def __init__(self, report_name: str, visitor,
