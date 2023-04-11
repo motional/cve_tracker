@@ -6,6 +6,7 @@ from src.report_creators.cve_visitor import CveVisitor
 
 def create_json_cve_entry(cve: Dict[str, str]) -> str:
     json_cve_source = '        {\n             \"MODULE_SOURCE\": \"' + cve['MODULE_SOURCE'] + '\",\n'
+    json_known_exploit = '             \"KnownExploit\": \"' + cve['KnownExploit'] + '\",\n'
     json_cve_id = '             \"ID\": \"' + cve['ID'] + '\",\n'
     json_module_name = '             \"ModuleName\": \"' + cve['ModuleName'] + '\",\n'
     json_version = '             \"Version\": \"' + cve['Version'] + '\",\n'
@@ -13,7 +14,7 @@ def create_json_cve_entry(cve: Dict[str, str]) -> str:
     json_cve_description = '             \"Description\": \"' + cve['Description'].replace('"', '') + '\",\n'
     json_cve_base_score = '             \"BaseScore\": \"' + cve['BaseScore'] + '\",\n'
     json_cve_cvss_vector = '             \"CVSSVector\": \"' + cve['CVSSVector'] + '\",\n'
-    json_cve_entry = '        \n' + json_cve_source + json_cve_id + json_cve_base_score +\
+    json_cve_entry = '        \n' + json_cve_source + json_known_exploit + json_cve_id + json_cve_base_score +\
         json_cve_cvss_vector + json_module_name + json_version + json_vendor_url +\
         json_cve_description
 
