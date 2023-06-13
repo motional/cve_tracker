@@ -418,3 +418,35 @@ class ArtifactoryParser(PackageParser):
                                     "empty, which makes precise CVE matches impossible: \n")
 
         return dependencies
+
+
+class GoParser(PackageParser):
+    """This class extracts dependencies defined in go.mod package files."""
+    @staticmethod
+    def _find_license(module_name):
+        URL = 'https://pkg.go.dev/'
+        source = requests.get(URL + module_name).text
+        soup = BeautifulSoup(source, 'html.parser')
+        module_license = 'N/A'
+        for data in soup.find_all('span'):
+            if 'License' in data.text:
+                license_data = data.text.strip().split(':')
+                if license_data:
+                    module_license = license_data[1].strip()
+                    break
+        return module_license
+
+    def parse(self, package_contents: str) -> List[Dict[str, str]]:
+        dependencies = []
+        module_source = 'Go Dependencies'
+        go_pattern = re.compile(r'\w+/\w+/(\w+)\s+v(\d+.\d+.\d+)')
+        match = go_pattern.findall(package_contents)
+        if match:
+            for m in match:
+                module_name = m[0]
+                version_number = m[1]
+                module_license = _find_license(module_name)
+                dependency = {'MODULE_SOURCE': module_source, 'ModuleName': module_name, 'Version': version_number,
+                              'License': module_license}
+                dependencies.append(dependency)
+        return dependencies

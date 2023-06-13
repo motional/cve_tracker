@@ -6,7 +6,8 @@ from src.dependency_searchers.dependency_searchers import LocalFileSearcher, \
 from src.dependency_searchers.package_parsers import ArtifactoryParser, BazelParser, \
     CsvParser, NpmParser, PipParser, \
     ConanParser, JsonParser, \
-    MakeFileParser, YarnParser
+    MakeFileParser, YarnParser, \
+    GoParser
 from src.report_creators.html_report_visitor import HtmlReportVisitor
 from src.report_creators.json_report_visitor import JsonReportVisitor
 from src.notification.email import EmailNotifier
@@ -45,6 +46,8 @@ class Config:
             Example search pattern: {"*.mk": MakeFileParser()}
         * YarnParser() - For *yarn.lock package files.
             Example search pattern: {"yarn.lock": YarnParser()}
+        * GoParser() - For *go.mod package files.
+            Example search pattern: {"go.mod": GoParser()}
 
     When your dependencies have assigned CVEs, this tool produces either an HTML or JSON report
     when the HtmlReportVisitor() or JsonReportVisitor() are configured. You can choose to have a
