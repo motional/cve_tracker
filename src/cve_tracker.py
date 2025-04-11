@@ -86,8 +86,8 @@ class NistCveSearcher():
                         time.sleep(0.6)
 
             else:
-                logging.error("The NIST API returned the following error code: %d",
-                              search_result.status_code)
+                logging.error("The NIST API returned error code %d when searching for %s",
+                              search_result.status_code, mod_name)
             return cves
 
         except requests.exceptions.ConnectionError:
