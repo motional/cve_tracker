@@ -270,3 +270,5 @@ def main():
         report_creator = ReportCreator(Config.REPORT_FILE_NAME + Config.REPORT_EXTENSION,
                                        Config.REPORT_VISITOR, dependencies, Config.NOTIFIER)
         report_creator.create_report(cves)
+    else:
+        print("No CVEs were found. No report will be generated.")
