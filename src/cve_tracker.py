@@ -69,6 +69,7 @@ class NistCveSearcher():
         nvd_search_url = 'https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch='
 
         try:
+            search_result = None
             if nist_api_key:
                 search_result = requests.get(url = nvd_search_url + mod_name, headers={'apiKey': nist_api_key})
             else:
