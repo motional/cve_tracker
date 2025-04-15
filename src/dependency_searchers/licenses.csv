@@ -38,6 +38,8 @@ eigen,MPL-2.0
 flann,BSD-3
 flatbuffers,Apache 2.0
 flex,BSD-2
+gz-utils,Apache-2.0
+gz-math,Apache-2.0
 spinnaker,Apache 2.0
 flirtlib,LGPL-3.0
 flycapture2,Point Grey EULA
@@ -105,15 +107,17 @@ libuuid,BSD-3
 libwebp,BSD-3-Clause
 libx264,GPL-2.0
 libx265,http://hg.videolan.org/x265/file/tip/COPYING
+libyaml,MIT
 libzmq,LGPL-3.0
 linasm,GPL-3.0-or-later
 linux-canlib,BSD-3
 lpsolve,LGPL-2.0-only
-lz4,
+lz4,BSD-2,GPL-2.0-or-later
 magicget,Boost Software License 1.0
 mapbox-earcut-hpp,ISC
 mapboxgl,private
 mapbox-variant,private
+mcap,MIT
 meson_installer,	Apache 2.0
 mkl,Intel Simplified Software License - ISSL
 mosquitto,EPL-2.0
@@ -134,8 +138,6 @@ obj-loader,MIT
 ogg,BSD-2-Clause
 ogre3d,MIT
 openblas,https://raw.githubusercontent.com/xianyi/OpenBLAS/develop/LICENSE
-opencv,BSD-3
-opencv,BSD-3
 opencv,BSD-3
 openh264,BSD-2-Clause
 OpenMesh,BSD-3
@@ -161,9 +163,12 @@ Qt,LGPL-3.0
 qwt,LGPL-2.1
 range-v3,BSL-1.0
 rapidjson,MIT
+readerwriterqueue,BSD-2
+ros2,Apache 2.0
 routingkit,BSD-2
 rti-dds,RTI License
 rti-dds-idl,RTI License
+rules_python,Apache 2.0
 schema-deps,Apache 2.0
 SDL2,zlib
 septentrio,BSD-3
@@ -181,6 +186,7 @@ TBB,Apache-2.0
 tensorrt,NVIDIA SLA
 thrift,Apache 2.0
 tinyxml,zlib
+tinyxml2,zlib
 units,MIT
 unity3d-native-interface,MIT
 vorbis,BSD-3-Clause
@@ -230,6 +236,7 @@ jszip,MIT
 lodash,MIT
 lodash-es,MIT
 memoizee,MIT
+mesa,MIT
 node,MIT
 papaparse,MIT
 react,MIT
