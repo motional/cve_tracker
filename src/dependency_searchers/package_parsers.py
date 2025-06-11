@@ -99,12 +99,18 @@ class BazelParser(PackageParser):
             if name:
                 version_pattern = re.compile(
                     r'\s*http.*' + name + r'-([a-zA-Z0-9-\.]*)\.tar|' + \
-                    r'\s*http.*' + name + r'-([a-zA-Z0-9-\.]*)\.')
+                    r'\s*http.*' + name + r'-([a-zA-Z0-9-\.]*)\.|' + \
+                    r'\s*strip_prefix\s*=\s*(?:\"|\')' + name + r'-(.*)(?:\"|\')')
 
                 match = version_pattern.search(line)
 
                 if match:
-                    version_match = match.group(1) if match.group(1) else match.group(2)
+                    if match.group(1):
+                        version_match = match.group(1)
+                    elif match.group(2):
+                        version_match = match.group(2)
+                    else:
+                        version_match = match.group(3)
 
                     # some version numbers have a 'v' before the version number and some version numbers
                     # have a '-latest' at the end, we need to remove this to accurately match the version
