@@ -81,14 +81,14 @@ class BazelParser(PackageParser):
         you can map known dependencies to their licenses in licenses.csv in this
         directory if you want this data available in reports. """
 
-
-
     def parse(self, package_contents: str) -> List[Dict[str, str]]:
         dependencies = []
 
         name_pattern = re.compile(r'\s*name\s*=\s*(?:\"|\')(.*)(?:\"|\')')
         name = ''
         version = ''
+
+        package_contents = str(package_contents, "UTF-8")
 
         for line in package_contents.split('\n'):
             match = name_pattern.match(line)
@@ -123,7 +123,8 @@ class BazelParser(PackageParser):
                 dependency = {'MODULE_SOURCE': str('Bazel Dependencies'), 'ModuleName': name,
                               'Version': version, 'License': dependency_license}
                 dependencies.append(dependency)
-                break
+                name = ''
+                version = ''
 
         return dependencies
 

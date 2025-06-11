@@ -36,7 +36,7 @@ def load_asio_repo():
         name = \"asio\",
         build_file = \"@//third_party/asio:asio.BUILD\",
         sha256 = \"fa8c3a16dc2163f5b3451f2a14ce95277c971f46700497d4e94af6059c00dc06\",
-        strip_prefix = \"asio-asio-1-12-0\",
+        strip_prefix = \"asio-1-12-0\",
         urls = [
             \"https://registry.ci.motional.com:443/artifactory/internet-resources/github.com/chriskohlhoff/asio/archive/asio-1-12-0.tar.gz\",
             \"https://github.com/chriskohlhoff/asio/archive/asio-1-12-0.tar.gz\",
@@ -79,6 +79,34 @@ def load_KTX_repo():
         self.assertEqual(dependencies[0]['Version'], '4.0.0')
         self.assertEqual(dependencies[0]['License'], 'Apache 2.0')
 
+    def test_parse_valid_bazel_file_two_dependencies(self):
+        bazel_data_two_dependencies = """
+    maybe(
+        http_archive,
+        name = "rules_python",
+        sha256 = "9acc0944c94adb23fba1c9988b48768b1bacc6583b52a2586895c5b7491e2e31",
+        strip_prefix = "rules_python-0.27.0",
+        url = "https://registry.ci.fake.com/repository/github/bazelbuild/rules_python/archive/refs/tags/0.27.0.tar.gz",
+    )
+
+    maybe(
+        http_archive,
+        name = "fmt",
+        sha256 = "5dea48d1fcddc3ec571ce2058e13910a0d4a6bab4cc09a809d8b1dd1c88ae6f2",
+        strip_prefix = "fmt-9.1.0",
+        url = "https://registry.ci.fake.com/repository/github/fmtlib/fmt/archive/9.1.0.tar.gz",
+    )
+        """
+        
+        dependencies = BazelParser().parse(bazel_data_two_dependencies)
+
+        self.assertEqual(len(dependencies), 2)
+
+        self.assertEqual(dependencies[0]['ModuleName'], 'rules_python')
+        self.assertEqual(dependencies[0]['Version'], '0.27.0')
+        
+        self.assertEqual(dependencies[1]['ModuleName'], 'fmt')
+        self.assertEqual(dependencies[1]['Version'], '9.1.0')
 
 if __name__ == '__main__':
     unittest.main()
